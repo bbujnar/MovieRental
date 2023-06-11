@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="085d4a6f6b904b18bf1916508acb9fca" Name="Diagram1">
+        <EntityTypeShape EntityType="MovieRentalModel.Filmy" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MovieRentalModel.Klienci" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MovieRentalModel.Cennik" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MovieRentalModel.Nośnik" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MovieRentalModel.Reklamacje" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MovieRentalModel.Wypożyczenia" Width="1.5" PointX="6" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="MovieRentalModel.FK__Cennik__IDFilmu__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="MovieRentalModel.FK__Nośnik__IDFilmu__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="MovieRentalModel.FK__Reklamacj__IDFil__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="MovieRentalModel.FK__Wypożycze__IDFil__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="MovieRentalModel.FK__Reklamacj__IDkli__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="MovieRentalModel.FK__Wypożycze__IDkli__33D4B598" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

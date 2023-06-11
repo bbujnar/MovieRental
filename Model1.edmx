@@ -1,0 +1,503 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MovieRentalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MovieRental.dbo.Cennik' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Cennik">
+          <Key>
+            <PropertyRef Name="Cena" />
+          </Key>
+          <Property Name="IDFilmu" Type="int" />
+          <Property Name="Cena" Type="money" Nullable="false" />
+          <Property Name="Kaucja" Type="money" />
+        </EntityType>
+        <EntityType Name="Filmy">
+          <Key>
+            <PropertyRef Name="IDFilmu" />
+          </Key>
+          <Property Name="IDFilmu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tytuł" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gatunek" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Reżyser" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Rok" Type="int" Nullable="false" />
+          <Property Name="Kraj" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Klienci">
+          <Key>
+            <PropertyRef Name="IDklienta" />
+          </Key>
+          <Property Name="IDklienta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Nazwisko" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="250" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="9" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MovieRental.dbo.Nośnik' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Nośnik">
+          <Key>
+            <PropertyRef Name="IDFilmu" />
+            <PropertyRef Name="BluRay" />
+            <PropertyRef Name="DVD" />
+            <PropertyRef Name="VHS" />
+          </Key>
+          <Property Name="IDFilmu" Type="int" Nullable="false" />
+          <Property Name="BluRay" Type="bit" Nullable="false" />
+          <Property Name="DVD" Type="bit" Nullable="false" />
+          <Property Name="VHS" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'MovieRental.dbo.OpisFilmu' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="OpisFilmu">
+          <Property Name="IDFilmu" Type="int" />
+          <Property Name="Streszczenie" Type="nvarchar" MaxLength="500" />
+          <Property Name="Ocena" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Zarobki" Type="money" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MovieRental.dbo.Reklamacje' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Reklamacje">
+          <Key>
+            <PropertyRef Name="Opis" />
+            <PropertyRef Name="Rozwiązanie" />
+          </Key>
+          <Property Name="IDFilmu" Type="int" />
+          <Property Name="IDklienta" Type="int" />
+          <Property Name="Opis" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Rozwiązanie" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MovieRental.dbo.Wypożyczenia' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Wypożyczenia">
+          <Key>
+            <PropertyRef Name="DataWypożyczenia" />
+          </Key>
+          <Property Name="IDklienta" Type="int" />
+          <Property Name="IDFilmu" Type="int" />
+          <Property Name="DataWypożyczenia" Type="datetime" Nullable="false" />
+          <Property Name="DataZwrotu" Type="datetime" />
+          <Property Name="Kara" Type="money" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'MovieRental.dbo.Zniżki' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Zniżki">
+          <Property Name="IDklienta" Type="int" />
+          <Property Name="Procent" Type="int" />
+        </EntityType>-->
+        <Association Name="FK__Cennik__IDFilmu__2C3393D0">
+          <End Role="Filmy" Type="Self.Filmy" Multiplicity="0..1" />
+          <End Role="Cennik" Type="Self.Cennik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Filmy">
+              <PropertyRef Name="IDFilmu" />
+            </Principal>
+            <Dependent Role="Cennik">
+              <PropertyRef Name="IDFilmu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Nośnik__IDFilmu__2A4B4B5E">
+          <End Role="Filmy" Type="Self.Filmy" Multiplicity="1" />
+          <End Role="Nośnik" Type="Self.Nośnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Filmy">
+              <PropertyRef Name="IDFilmu" />
+            </Principal>
+            <Dependent Role="Nośnik">
+              <PropertyRef Name="IDFilmu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'MovieRental.dbo.OpisFilmu' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__OpisFilmu__IDFil__276EDEB3" />-->
+        <Association Name="FK__Reklamacj__IDFil__3C69FB99">
+          <End Role="Filmy" Type="Self.Filmy" Multiplicity="0..1" />
+          <End Role="Reklamacje" Type="Self.Reklamacje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Filmy">
+              <PropertyRef Name="IDFilmu" />
+            </Principal>
+            <Dependent Role="Reklamacje">
+              <PropertyRef Name="IDFilmu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reklamacj__IDkli__3D5E1FD2">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="0..1" />
+          <End Role="Reklamacje" Type="Self.Reklamacje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="IDklienta" />
+            </Principal>
+            <Dependent Role="Reklamacje">
+              <PropertyRef Name="IDklienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypożycze__IDFil__34C8D9D1">
+          <End Role="Filmy" Type="Self.Filmy" Multiplicity="0..1" />
+          <End Role="Wypożyczenia" Type="Self.Wypożyczenia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Filmy">
+              <PropertyRef Name="IDFilmu" />
+            </Principal>
+            <Dependent Role="Wypożyczenia">
+              <PropertyRef Name="IDFilmu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypożycze__IDkli__33D4B598">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="0..1" />
+          <End Role="Wypożyczenia" Type="Self.Wypożyczenia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="IDklienta" />
+            </Principal>
+            <Dependent Role="Wypożyczenia">
+              <PropertyRef Name="IDklienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'MovieRental.dbo.Zniżki' is referenced by a relationship, but cannot be found.
+        <Association Name="FK__Zniżki__IDklient__38996AB5" />-->
+        <EntityContainer Name="MovieRentalModelStoreContainer">
+          <EntitySet Name="Filmy" EntityType="Self.Filmy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Klienci" EntityType="Self.Klienci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cennik" EntityType="Self.Cennik" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Cennik].[IDFilmu] AS [IDFilmu], 
+    [Cennik].[Cena] AS [Cena], 
+    [Cennik].[Kaucja] AS [Kaucja]
+    FROM [dbo].[Cennik] AS [Cennik]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Nośnik" EntityType="Self.Nośnik" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Nośnik].[IDFilmu] AS [IDFilmu], 
+    [Nośnik].[BluRay] AS [BluRay], 
+    [Nośnik].[DVD] AS [DVD], 
+    [Nośnik].[VHS] AS [VHS]
+    FROM [dbo].[Nośnik] AS [Nośnik]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Reklamacje" EntityType="Self.Reklamacje" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Reklamacje].[IDFilmu] AS [IDFilmu], 
+    [Reklamacje].[IDklienta] AS [IDklienta], 
+    [Reklamacje].[Opis] AS [Opis], 
+    [Reklamacje].[Rozwiązanie] AS [Rozwiązanie]
+    FROM [dbo].[Reklamacje] AS [Reklamacje]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Wypożyczenia" EntityType="Self.Wypożyczenia" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Wypożyczenia].[IDklienta] AS [IDklienta], 
+    [Wypożyczenia].[IDFilmu] AS [IDFilmu], 
+    [Wypożyczenia].[DataWypożyczenia] AS [DataWypożyczenia], 
+    [Wypożyczenia].[DataZwrotu] AS [DataZwrotu], 
+    [Wypożyczenia].[Kara] AS [Kara]
+    FROM [dbo].[Wypożyczenia] AS [Wypożyczenia]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Cennik__IDFilmu__2C3393D0" Association="Self.FK__Cennik__IDFilmu__2C3393D0">
+            <End Role="Filmy" EntitySet="Filmy" />
+            <End Role="Cennik" EntitySet="Cennik" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Nośnik__IDFilmu__2A4B4B5E" Association="Self.FK__Nośnik__IDFilmu__2A4B4B5E">
+            <End Role="Filmy" EntitySet="Filmy" />
+            <End Role="Nośnik" EntitySet="Nośnik" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reklamacj__IDFil__3C69FB99" Association="Self.FK__Reklamacj__IDFil__3C69FB99">
+            <End Role="Filmy" EntitySet="Filmy" />
+            <End Role="Reklamacje" EntitySet="Reklamacje" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reklamacj__IDkli__3D5E1FD2" Association="Self.FK__Reklamacj__IDkli__3D5E1FD2">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Reklamacje" EntitySet="Reklamacje" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypożycze__IDFil__34C8D9D1" Association="Self.FK__Wypożycze__IDFil__34C8D9D1">
+            <End Role="Filmy" EntitySet="Filmy" />
+            <End Role="Wypożyczenia" EntitySet="Wypożyczenia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypożycze__IDkli__33D4B598" Association="Self.FK__Wypożycze__IDkli__33D4B598">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Wypożyczenia" EntitySet="Wypożyczenia" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MovieRentalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Filmy">
+          <Key>
+            <PropertyRef Name="IDFilmu" />
+          </Key>
+          <Property Name="IDFilmu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tytuł" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gatunek" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Reżyser" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rok" Type="Int32" Nullable="false" />
+          <Property Name="Kraj" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cennik" Relationship="Self.FK__Cennik__IDFilmu__2C3393D0" FromRole="Filmy" ToRole="Cennik" />
+          <NavigationProperty Name="Nośnik" Relationship="Self.FK__Nośnik__IDFilmu__2A4B4B5E" FromRole="Filmy" ToRole="Nośnik" />
+          <NavigationProperty Name="Reklamacje" Relationship="Self.FK__Reklamacj__IDFil__3C69FB99" FromRole="Filmy" ToRole="Reklamacje" />
+          <NavigationProperty Name="Wypożyczenia" Relationship="Self.FK__Wypożycze__IDFil__34C8D9D1" FromRole="Filmy" ToRole="Wypożyczenia" />
+        </EntityType>
+        <EntityType Name="Klienci">
+          <Key>
+            <PropertyRef Name="IDklienta" />
+          </Key>
+          <Property Name="IDklienta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nazwisko" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Reklamacje" Relationship="Self.FK__Reklamacj__IDkli__3D5E1FD2" FromRole="Klienci" ToRole="Reklamacje" />
+          <NavigationProperty Name="Wypożyczenia" Relationship="Self.FK__Wypożycze__IDkli__33D4B598" FromRole="Klienci" ToRole="Wypożyczenia" />
+        </EntityType>
+        <EntityType Name="Cennik">
+          <Key>
+            <PropertyRef Name="Cena" />
+          </Key>
+          <Property Name="IDFilmu" Type="Int32" />
+          <Property Name="Cena" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Kaucja" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Filmy" Relationship="Self.FK__Cennik__IDFilmu__2C3393D0" FromRole="Cennik" ToRole="Filmy" />
+        </EntityType>
+        <EntityType Name="Nośnik">
+          <Key>
+            <PropertyRef Name="IDFilmu" />
+            <PropertyRef Name="BluRay" />
+            <PropertyRef Name="DVD" />
+            <PropertyRef Name="VHS" />
+          </Key>
+          <Property Name="IDFilmu" Type="Int32" Nullable="false" />
+          <Property Name="BluRay" Type="Boolean" Nullable="false" />
+          <Property Name="DVD" Type="Boolean" Nullable="false" />
+          <Property Name="VHS" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Filmy" Relationship="Self.FK__Nośnik__IDFilmu__2A4B4B5E" FromRole="Nośnik" ToRole="Filmy" />
+        </EntityType>
+        <EntityType Name="Reklamacje">
+          <Key>
+            <PropertyRef Name="Opis" />
+            <PropertyRef Name="Rozwiązanie" />
+          </Key>
+          <Property Name="IDFilmu" Type="Int32" />
+          <Property Name="IDklienta" Type="Int32" />
+          <Property Name="Opis" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rozwiązanie" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Filmy" Relationship="Self.FK__Reklamacj__IDFil__3C69FB99" FromRole="Reklamacje" ToRole="Filmy" />
+          <NavigationProperty Name="Klienci" Relationship="Self.FK__Reklamacj__IDkli__3D5E1FD2" FromRole="Reklamacje" ToRole="Klienci" />
+        </EntityType>
+        <EntityType Name="Wypożyczenia">
+          <Key>
+            <PropertyRef Name="DataWypożyczenia" />
+          </Key>
+          <Property Name="IDklienta" Type="Int32" />
+          <Property Name="IDFilmu" Type="Int32" />
+          <Property Name="DataWypożyczenia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataZwrotu" Type="DateTime" Precision="3" />
+          <Property Name="Kara" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Filmy" Relationship="Self.FK__Wypożycze__IDFil__34C8D9D1" FromRole="Wypożyczenia" ToRole="Filmy" />
+          <NavigationProperty Name="Klienci" Relationship="Self.FK__Wypożycze__IDkli__33D4B598" FromRole="Wypożyczenia" ToRole="Klienci" />
+        </EntityType>
+        <Association Name="FK__Cennik__IDFilmu__2C3393D0">
+          <End Role="Filmy" Type="Self.Filmy" Multiplicity="0..1" />
+          <End Role="Cennik" Type="Self.Cennik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Filmy">
+              <PropertyRef Name="IDFilmu" />
+            </Principal>
+            <Dependent Role="Cennik">
+              <PropertyRef Name="IDFilmu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Nośnik__IDFilmu__2A4B4B5E">
+          <End Role="Filmy" Type="Self.Filmy" Multiplicity="1" />
+          <End Role="Nośnik" Type="Self.Nośnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Filmy">
+              <PropertyRef Name="IDFilmu" />
+            </Principal>
+            <Dependent Role="Nośnik">
+              <PropertyRef Name="IDFilmu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reklamacj__IDFil__3C69FB99">
+          <End Role="Filmy" Type="Self.Filmy" Multiplicity="0..1" />
+          <End Role="Reklamacje" Type="Self.Reklamacje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Filmy">
+              <PropertyRef Name="IDFilmu" />
+            </Principal>
+            <Dependent Role="Reklamacje">
+              <PropertyRef Name="IDFilmu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypożycze__IDFil__34C8D9D1">
+          <End Role="Filmy" Type="Self.Filmy" Multiplicity="0..1" />
+          <End Role="Wypożyczenia" Type="Self.Wypożyczenia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Filmy">
+              <PropertyRef Name="IDFilmu" />
+            </Principal>
+            <Dependent Role="Wypożyczenia">
+              <PropertyRef Name="IDFilmu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reklamacj__IDkli__3D5E1FD2">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="0..1" />
+          <End Role="Reklamacje" Type="Self.Reklamacje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="IDklienta" />
+            </Principal>
+            <Dependent Role="Reklamacje">
+              <PropertyRef Name="IDklienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Wypożycze__IDkli__33D4B598">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="0..1" />
+          <End Role="Wypożyczenia" Type="Self.Wypożyczenia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="IDklienta" />
+            </Principal>
+            <Dependent Role="Wypożyczenia">
+              <PropertyRef Name="IDklienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MovieRentalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Filmy" EntityType="Self.Filmy" />
+          <EntitySet Name="Klienci" EntityType="Self.Klienci" />
+          <EntitySet Name="Cennik" EntityType="Self.Cennik" />
+          <EntitySet Name="Nośnik" EntityType="Self.Nośnik" />
+          <EntitySet Name="Reklamacje" EntityType="Self.Reklamacje" />
+          <EntitySet Name="Wypożyczenia" EntityType="Self.Wypożyczenia" />
+          <AssociationSet Name="FK__Cennik__IDFilmu__2C3393D0" Association="Self.FK__Cennik__IDFilmu__2C3393D0">
+            <End Role="Filmy" EntitySet="Filmy" />
+            <End Role="Cennik" EntitySet="Cennik" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Nośnik__IDFilmu__2A4B4B5E" Association="Self.FK__Nośnik__IDFilmu__2A4B4B5E">
+            <End Role="Filmy" EntitySet="Filmy" />
+            <End Role="Nośnik" EntitySet="Nośnik" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reklamacj__IDFil__3C69FB99" Association="Self.FK__Reklamacj__IDFil__3C69FB99">
+            <End Role="Filmy" EntitySet="Filmy" />
+            <End Role="Reklamacje" EntitySet="Reklamacje" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypożycze__IDFil__34C8D9D1" Association="Self.FK__Wypożycze__IDFil__34C8D9D1">
+            <End Role="Filmy" EntitySet="Filmy" />
+            <End Role="Wypożyczenia" EntitySet="Wypożyczenia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reklamacj__IDkli__3D5E1FD2" Association="Self.FK__Reklamacj__IDkli__3D5E1FD2">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Reklamacje" EntitySet="Reklamacje" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Wypożycze__IDkli__33D4B598" Association="Self.FK__Wypożycze__IDkli__33D4B598">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Wypożyczenia" EntitySet="Wypożyczenia" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MovieRentalModelStoreContainer" CdmEntityContainer="MovieRentalEntities">
+          <EntitySetMapping Name="Filmy">
+            <EntityTypeMapping TypeName="MovieRentalModel.Filmy">
+              <MappingFragment StoreEntitySet="Filmy">
+                <ScalarProperty Name="IDFilmu" ColumnName="IDFilmu" />
+                <ScalarProperty Name="Tytuł" ColumnName="Tytuł" />
+                <ScalarProperty Name="Gatunek" ColumnName="Gatunek" />
+                <ScalarProperty Name="Reżyser" ColumnName="Reżyser" />
+                <ScalarProperty Name="Rok" ColumnName="Rok" />
+                <ScalarProperty Name="Kraj" ColumnName="Kraj" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Klienci">
+            <EntityTypeMapping TypeName="MovieRentalModel.Klienci">
+              <MappingFragment StoreEntitySet="Klienci">
+                <ScalarProperty Name="IDklienta" ColumnName="IDklienta" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cennik">
+            <EntityTypeMapping TypeName="MovieRentalModel.Cennik">
+              <MappingFragment StoreEntitySet="Cennik">
+                <ScalarProperty Name="IDFilmu" ColumnName="IDFilmu" />
+                <ScalarProperty Name="Cena" ColumnName="Cena" />
+                <ScalarProperty Name="Kaucja" ColumnName="Kaucja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nośnik">
+            <EntityTypeMapping TypeName="MovieRentalModel.Nośnik">
+              <MappingFragment StoreEntitySet="Nośnik">
+                <ScalarProperty Name="IDFilmu" ColumnName="IDFilmu" />
+                <ScalarProperty Name="BluRay" ColumnName="BluRay" />
+                <ScalarProperty Name="DVD" ColumnName="DVD" />
+                <ScalarProperty Name="VHS" ColumnName="VHS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reklamacje">
+            <EntityTypeMapping TypeName="MovieRentalModel.Reklamacje">
+              <MappingFragment StoreEntitySet="Reklamacje">
+                <ScalarProperty Name="IDFilmu" ColumnName="IDFilmu" />
+                <ScalarProperty Name="IDklienta" ColumnName="IDklienta" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="Rozwiązanie" ColumnName="Rozwiązanie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wypożyczenia">
+            <EntityTypeMapping TypeName="MovieRentalModel.Wypożyczenia">
+              <MappingFragment StoreEntitySet="Wypożyczenia">
+                <ScalarProperty Name="IDklienta" ColumnName="IDklienta" />
+                <ScalarProperty Name="IDFilmu" ColumnName="IDFilmu" />
+                <ScalarProperty Name="DataWypożyczenia" ColumnName="DataWypożyczenia" />
+                <ScalarProperty Name="DataZwrotu" ColumnName="DataZwrotu" />
+                <ScalarProperty Name="Kara" ColumnName="Kara" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
