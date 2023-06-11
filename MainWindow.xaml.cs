@@ -55,16 +55,27 @@ namespace MovieRental
             {
                 Filmy newFilm = new Filmy();
 
-                
-                
-                newFilm.Tytuł = title.Text;
-                newFilm.Gatunek = genre.Text;
-                newFilm.Reżyser = director.Text;
-                newFilm.Kraj = nation.Text;
-                newFilm.Rok = int.Parse(year.Text);
+                bool titleExists = newEntity.Filmy.Any(c => c.Tytuł == title.Text);
+                if (!titleExists && (int.Parse(year.Text)>999 && int.Parse(year.Text)<10000))
+                {
+                    newFilm.Tytuł = title.Text;
+                    newFilm.Gatunek = genre.Text;
+                    newFilm.Reżyser = director.Text;
+                    newFilm.Kraj = nation.Text;
+                    newFilm.Rok = int.Parse(year.Text);
 
-                newEntity.Filmy.Add(newFilm);
-                newEntity.SaveChanges();
+                    newEntity.Filmy.Add(newFilm);
+                    newEntity.SaveChanges();
+                    MessageBox.Show("Pomyślnie dodano film!");
+                }
+                else if(titleExists)
+                {
+                    MessageBox.Show("Tytuł już występuje w bazie");
+                }
+                else
+                {
+                    MessageBox.Show("Zły rok produkcji");
+                }
                
 
             }
