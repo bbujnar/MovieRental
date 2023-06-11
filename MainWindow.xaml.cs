@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Data.Entity;
 using System.Text.RegularExpressions;
 using System.Data.Entity.Validation;
+using System.Data.Entity.Infrastructure;
 
 namespace MovieRental
 {
@@ -82,7 +83,7 @@ namespace MovieRental
 
                 
 
-            Window_Loaded(sender, e);
+            ReloadPage();
         }
 
 
@@ -92,26 +93,70 @@ namespace MovieRental
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void deleteMovie(object sender, EventArgs e )
+        private void deleteMovie(object sender, RoutedEventArgs e )
         {
 
-            using( context )
+            using(MovieRentalEntities newEntity = new MovieRentalEntities())
             {
                 int idToDelete = int.Parse(deleteID.Text);
 
-                var recordToDelete = context.Filmy.FirstOrDefault(movie => movie.IDFilmu == idToDelete);
-
-
-                if( recordToDelete != null )
+                bool movieExists = newEntity.Filmy.Any(movie => movie.IDFilmu == idToDelete);
+                if (movieExists)
                 {
-                    context.Filmy.Remove( recordToDelete );
-                    context.SaveChanges();
+
+                    var recordToDelete = newEntity.Filmy.FirstOrDefault(movie => movie.IDFilmu == idToDelete);
+
+
+                    if (recordToDelete != null)
+                    {
+                        try
+                        {
+                            newEntity.Filmy.Remove(recordToDelete);
+                            newEntity.SaveChanges();
+                            MessageBox.Show("Pozytywnie usunięto film!");
+                        }
+                        catch ( DbUpdateException ex )
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Film nie istnieje!");
                 }
             }
 
 
+            ReloadPage();
+
         }
 
+        MovieRentalClients clientsWindow = new MovieRentalClients();
 
+        private void switchToClients( object sender, RoutedEventArgs e)
+        {
+
+            if(clientsWindow == null || !clientsWindow.IsVisible)
+            {
+                clientsWindow= new MovieRentalClients();
+                clientsWindow.Closed += ClientsWindow_Closed;
+                clientsWindow.Show();
+
+            }
+        }
+
+        private void ClientsWindow_Closed(object sender, EventArgs e)
+        {
+            clientsWindow = null;
+        }
+
+        private void ReloadPage()
+        {
+            Window newWindow = new MainWindow();
+            newWindow.Show();
+            Close();
+
+        }
     }
 }
