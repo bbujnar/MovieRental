@@ -74,5 +74,12 @@
         </StackPanel>
 
 
+        <StackPanel Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="3" Grid.RowSpan="8">
+            <Label>Usuń film o ID: </Label>
+            <TextBox x:Name="deleteID" PreviewTextInput="RegexCheck"/>
+            <Button Click="deleteMovie" Margin="0 10 0 0">Usuń</Button>
+        </StackPanel>
+
+
     </Grid>
 </Window>

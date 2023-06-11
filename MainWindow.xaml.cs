@@ -92,6 +92,26 @@ namespace MovieRental
             e.Handled = regex.IsMatch(e.Text);
         }
 
+        private void deleteMovie(object sender, EventArgs e )
+        {
+
+            using( context )
+            {
+                int idToDelete = int.Parse(deleteID.Text);
+
+                var recordToDelete = context.Filmy.FirstOrDefault(movie => movie.IDFilmu == idToDelete);
+
+
+                if( recordToDelete != null )
+                {
+                    context.Filmy.Remove( recordToDelete );
+                    context.SaveChanges();
+                }
+            }
+
+
+        }
+
 
     }
 }
