@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Entity;
+using System.Text.RegularExpressions;
+using System.Data.Entity.Validation;
 
 namespace MovieRental
 {
@@ -53,14 +55,18 @@ namespace MovieRental
             {
                 Filmy newFilm = new Filmy();
 
-                newFilm.IDFilmu = default;
+                
+                
                 newFilm.Tytuł = title.Text;
                 newFilm.Gatunek = genre.Text;
                 newFilm.Reżyser = director.Text;
+                newFilm.Kraj = nation.Text;
                 newFilm.Rok = int.Parse(year.Text);
 
                 newEntity.Filmy.Add(newFilm);
                 newEntity.SaveChanges();
+               
+
             }
 
                 
@@ -68,6 +74,12 @@ namespace MovieRental
             Window_Loaded(sender, e);
         }
 
+
+        private void RegexCheck( object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
 
 
     }
