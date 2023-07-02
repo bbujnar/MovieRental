@@ -8,22 +8,9 @@
             <ListView x:Name="clientsListView" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="IDklienta" DisplayMemberBinding="{Binding Name}" />
                         <GridViewColumn Header="Imię" DisplayMemberBinding="{Binding Name}" />
                         <GridViewColumn Header="Nazwisko" DisplayMemberBinding="{Binding Surname}" />
-                        <GridViewColumn Header="Wypożyczone filmy">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ItemsControl ItemsSource="{Binding RentedMovies}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding}" />
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        <GridViewColumn Header="Wypożyczone filmy" DisplayMemberBinding="{Binding RentedMovies}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

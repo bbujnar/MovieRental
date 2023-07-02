@@ -48,7 +48,7 @@ namespace MovieRental
                     connection.Open();
                     string query;
                     // Zapytanie SQL do pobrania danych klientów
-                    query = "SELECT Klienci.IDklienta, Klienci.Imie, Klienci.Nazwisko, COUNT(*) AS LiczbaWypożyczeń FROM Wypożyczenia JOIN Klienci ON Wypożyczenia.IDklienta = Klienci.IDklienta JOIN Filmy ON Wypożyczenia.IDFilmu = Filmy.IDFilmu GROUP BY Klienci.IDklienta, Imie, Nazwisko;";
+                    query = "SELECT Klienci.Imie, Klienci.Nazwisko, COUNT(*) AS LiczbaWypozyczen FROM Wypożyczenia JOIN Klienci ON Wypożyczenia.IDklienta = Klienci.IDklienta JOIN Filmy ON Wypożyczenia.IDFilmu = Filmy.IDFilmu GROUP BY Klienci.IDklienta, Imie, Nazwisko";
                     
 
                     // Wykonanie zapytania SQL
@@ -59,13 +59,12 @@ namespace MovieRental
                         {
                             while (reader.Read())
                             {
-                                int id = reader.GetInt32(reader.GetOrdinal("IDklienta"));
                                 string name = reader["Imie"].ToString();
                                 string surname = reader["Nazwisko"].ToString();
-                                int rentedMovies = reader.GetInt32(reader.GetOrdinal("LiczbaWypożyczeń"));
+                                string rentedMovies = reader["LiczbaWypozyczen"].ToString();
 
                                 // Tworzenie obiektu klienta na podstawie danych z bazy danych
-                                Client client = new Client { Id = id, Name = name, Surname = surname , };
+                                Client client = new Client { Name = name, Surname = surname , RentedMovies = rentedMovies };
 
                                 // Dodanie klienta do listy
                                 clients.Add(client);
@@ -101,9 +100,8 @@ namespace MovieRental
 
     public class Client
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public int RentedMovies { get; set; }
+        public string RentedMovies { get; set; }
     }
 }
