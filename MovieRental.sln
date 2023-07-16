@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRental", "MovieRental.csproj", "{B8F410FE-43BC-4804-93A7-AD8A6CA4BB1A}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "..\Installer\Installer.vdproj", "{B2467382-6481-4B00-B15F-7C1DDC55EAEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B8F410FE-43BC-4804-93A7-AD8A6CA4BB1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8F410FE-43BC-4804-93A7-AD8A6CA4BB1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8F410FE-43BC-4804-93A7-AD8A6CA4BB1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2467382-6481-4B00-B15F-7C1DDC55EAEE}.Debug|Any CPU.ActiveCfg = Debug
+		{B2467382-6481-4B00-B15F-7C1DDC55EAEE}.Debug|Any CPU.Build.0 = Debug
+		{B2467382-6481-4B00-B15F-7C1DDC55EAEE}.Release|Any CPU.ActiveCfg = Release
+		{B2467382-6481-4B00-B15F-7C1DDC55EAEE}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
